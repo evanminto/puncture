@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pattern Punch Example</title>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        color: red;
+      }
+
+      button {
+        font: inherit;
+      }
+    </style>
+
+    <link href="../dist/pattern-punch.css" rel="stylesheet">
+    <script src="../dist/pattern-punch.js" defer></script>
+  </head>
+  <body>
+    <pp-project label="Pattern Punch Example">
+      <pp-section label="Interactive">
+        <pp-pattern label="Button" description="A standard button element.">
+          <pp-variant label="Primary">
+            <button>Click me</button>
+          </pp-variant>
+
+          <pp-variant label="Primary (Disabled)">
+            <button disabled>Click me</button>
+          </pp-variant>
+
+          <pp-variant label="Secondary">
+            <button>Click me</button>
+          </pp-variant>
+
+          <pp-variant label="Secondary (Disabled)">
+            <button disabled>Click me</button>
+          </pp-variant>
+        </pp-pattern>
+
+        <pp-pattern label="Link" description="Standard hyperlink.">
+          <a href="">Link</a>
+        </pp-pattern>
+      </pp-section>
+
+      <pp-section label="Form">
+        <pp-pattern label="Checkbox and Label">
+          <input type="checkbox">
+          <label>Checkbox</label>
+        </pp-pattern>
+
+        <pp-pattern label="Text Input and Label">
+          <label>Checkbox</label>
+          <input type="text">
+        </pp-pattern>
+      </pp-section>
+    </pp-project>
+  </body>
+</html>
