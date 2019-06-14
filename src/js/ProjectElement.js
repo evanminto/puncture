@@ -1,7 +1,7 @@
 import { css, html } from 'lit-element';
-import PpBaseLitElement from './PpBaseLitElement.js';
+import BaseElement from './BaseElement.js';
 
-export default class PpProjectElement extends PpBaseLitElement {
+export default class ProjectElement extends BaseElement {
   static get properties() {
     return {
       label: {
@@ -31,7 +31,7 @@ export default class PpProjectElement extends PpBaseLitElement {
     super();
 
     if (this.navShown === undefined) {
-      const lsValue = localStorage.getItem('pp-nav-shown');
+      const lsValue = localStorage.getItem('puncture-nav-shown');
       this.navShown = lsValue === null ? false : (lsValue === 'true');
     }
 
@@ -41,8 +41,8 @@ export default class PpProjectElement extends PpBaseLitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this.sections = Array.from(this.querySelectorAll('pp-section'));
-    this.patterns = Array.from(this.querySelectorAll('pp-pattern'));
+    this.sections = Array.from(this.querySelectorAll('puncture-section'));
+    this.patterns = Array.from(this.querySelectorAll('puncture-pattern'));
 
     const searchParams = new URL(location).searchParams;
     const selectedPattern = this.getPatternByLabel(searchParams.get('pattern'));
@@ -57,7 +57,7 @@ export default class PpProjectElement extends PpBaseLitElement {
   }
 
   getPatternByLabel(label) {
-    return this.querySelector(`pp-pattern[label='${label}']`);
+    return this.querySelector(`puncture-pattern[label='${label}']`);
   }
 
   openPattern(pattern) {
@@ -65,7 +65,7 @@ export default class PpProjectElement extends PpBaseLitElement {
       return;
     }
 
-    const section = pattern.closest('pp-section');
+    const section = pattern.closest('puncture-section');
 
     this.sections.forEach(s => {
       s.open = (s === section);
@@ -154,7 +154,7 @@ export default class PpProjectElement extends PpBaseLitElement {
 
   handleNavToggle() {
     this.navShown = !this.navShown;
-    localStorage.setItem('pp-nav-shown', this.navShown ? 'true' : 'false');
+    localStorage.setItem('puncture-nav-shown', this.navShown ? 'true' : 'false');
   }
 
   render() {
@@ -182,40 +182,40 @@ export default class PpProjectElement extends PpBaseLitElement {
   static get styles() {
     return css`
       :host {
-        --pp-color-primary: #222;
-        --pp-color-secondary: #555;
-        --pp-color-dark: black;
-        --pp-color-gray: #eee;
-        --pp-color-light: white;
+        --puncture-color-primary: #222;
+        --puncture-color-secondary: #555;
+        --puncture-color-dark: black;
+        --puncture-color-gray: #eee;
+        --puncture-color-light: white;
 
-        --pp-color-text: var(--pp-color-dark);
-        --pp-color-text-on-secondary: var(--pp-color-light);
+        --puncture-color-text: var(--puncture-color-dark);
+        --puncture-color-text-on-secondary: var(--puncture-color-light);
 
-        --pp-color-bg: var(--pp-color-light);
+        --puncture-color-bg: var(--puncture-color-light);
 
-        --pp-space-base: 0.5rem;
+        --puncture-space-base: 0.5rem;
 
-        --pp-space-sm: var(--pp-space-base);
-        --pp-space-md: calc(var(--pp-space-sm) * 2);
-        --pp-space-lg: calc(var(--pp-space-md) * 2);
-        --pp-space-xl: calc(var(--pp-space-lg) * 2);
+        --puncture-space-sm: var(--puncture-space-base);
+        --puncture-space-md: calc(var(--puncture-space-sm) * 2);
+        --puncture-space-lg: calc(var(--puncture-space-md) * 2);
+        --puncture-space-xl: calc(var(--puncture-space-lg) * 2);
 
-        --pp-max-width: 60rem;
+        --puncture-max-width: 60rem;
 
-        --pp-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, system-ui, sans-serif;
+        --puncture-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, system-ui, sans-serif;
 
-        --pp-line-height: 1.5;
-        --pp-header-height: calc(var(--pp-line-height) * 1rem + var(--pp-space-sm) * 2);
+        --puncture-line-height: 1.5;
+        --puncture-header-height: calc(var(--puncture-line-height) * 1rem + var(--puncture-space-sm) * 2);
 
-        color: var(--pp-color-text);
+        color: var(--puncture-color-text);
         height: 100%;
         max-height: 100%;
       }
 
       nav {
-        background: var(--pp-color-gray);
+        background: var(--puncture-color-gray);
         border-right: 0.0625rem solid;
-        font-family: var(--pp-font-family);
+        font-family: var(--puncture-font-family);
         overflow-y: auto;
       }
 
@@ -226,19 +226,19 @@ export default class PpProjectElement extends PpBaseLitElement {
       }
 
       nav ul ul {
-        background: var(--pp-color-light);
+        background: var(--puncture-color-light);
       }
 
       nav summary {
         cursor: default;
         font-weight: 700;
-        padding: var(--pp-space-sm) var(--pp-space-md);
+        padding: var(--puncture-space-sm) var(--puncture-space-md);
       }
 
       nav a {
         color: inherit;
         display: block;
-        padding: var(--pp-space-sm) var(--pp-space-md) var(--pp-space-sm) var(--pp-space-lg);
+        padding: var(--puncture-space-sm) var(--puncture-space-md) var(--puncture-space-sm) var(--puncture-space-lg);
         text-decoration: none;
       }
 
@@ -251,10 +251,10 @@ export default class PpProjectElement extends PpBaseLitElement {
       }
 
       header {
-        background: var(--pp-color-secondary);
+        background: var(--puncture-color-secondary);
         box-sizing: border-box;
-        color: var(--pp-color-text-on-secondary);
-        font-family: var(--pp-font-family);
+        color: var(--puncture-color-text-on-secondary);
+        font-family: var(--puncture-font-family);
         grid-area: 1 / 1 / span 1 / span 2;
         height: 100%;
         width: 100%;
@@ -288,7 +288,7 @@ export default class PpProjectElement extends PpBaseLitElement {
         font-weight: 700;
         margin: 0;
         max-width: 100%;
-        padding: var(--pp-space-md);
+        padding: var(--puncture-space-md);
         text-align: left;
         width: 18rem;
       }
@@ -298,7 +298,7 @@ export default class PpProjectElement extends PpBaseLitElement {
       }
 
       .nav-toggle > * + * {
-        margin-left: var(--pp-space-md);
+        margin-left: var(--puncture-space-md);
       }
     `;
   }

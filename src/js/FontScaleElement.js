@@ -1,8 +1,8 @@
 import { html, css } from 'lit-element';
-import PpBaseLitElement from './PpBaseLitElement.js';
+import BaseElement from './BaseElement.js';
 import { space as spaceSeparatorConverter } from './SeparatorConverter.js';
 
-export default class PpFontScaleElement extends PpBaseLitElement {
+export default class FontScaleElement extends BaseElement {
   static get properties() {
     return {
       sizes: {
@@ -20,7 +20,7 @@ export default class PpFontScaleElement extends PpBaseLitElement {
       }
 
       * + * {
-        margin-top: var(--pp-space-md);
+        margin-top: var(--puncture-space-md);
       }
 
       p {

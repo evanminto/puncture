@@ -1,9 +1,0 @@
-pp-project,
-pp-section,
-pp-pattern {
-  /* display: block; */
-}
-
-pp-project > * + * {
-  margin-top: 0;
-}

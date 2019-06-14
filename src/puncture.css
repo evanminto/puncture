@@ -1,0 +1,9 @@
+puncture-project,
+puncture-section,
+puncture-pattern {
+  /* display: block; */
+}
+
+puncture-project > * + * {
+  margin-top: 0;
+}

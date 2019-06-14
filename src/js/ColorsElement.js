@@ -1,7 +1,7 @@
 import { html, css } from 'lit-element';
-import PpBaseLitElement from './PpBaseLitElement.js';
+import BaseElement from './BaseElement.js';
 
-export default class PpColorsElement extends PpBaseLitElement {
+export default class ColorsElement extends BaseElement {
   render() {
     return html`
     <ul class="colors">
@@ -31,8 +31,8 @@ export default class PpColorsElement extends PpBaseLitElement {
     return css`
       :host {
         display: block;
-        font-family: var(--pp-font-family);
-        line-height: var(--pp-line-height);
+        font-family: var(--puncture-font-family);
+        line-height: var(--puncture-line-height);
       }
 
       .colors {

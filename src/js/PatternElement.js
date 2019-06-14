@@ -1,7 +1,7 @@
 import { css, html } from 'lit-element';
-import PpBaseLitElement from './PpBaseLitElement.js';
+import BaseElement from './BaseElement.js';
 
-export default class PpPatternElement extends PpBaseLitElement {
+export default class PatternElement extends BaseElement {
   constructor() {
     super();
 
@@ -41,15 +41,15 @@ export default class PpPatternElement extends PpBaseLitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this.variants = Array.from(this.querySelectorAll('pp-variant'));
+    this.variants = Array.from(this.querySelectorAll('puncture-variant'));
 
     if (this.variants.length === 0) {
-      const variant = document.createElement('pp-variant');
+      const variant = document.createElement('puncture-variant');
       variant.setAttribute('label', 'Default');
       variant.innerHTML = this.innerHTML;
       this.innerHTML = '';
       this.appendChild(variant);
-      this.variants = Array.from(this.querySelectorAll('pp-variant'));
+      this.variants = Array.from(this.querySelectorAll('puncture-variant'));
     }
 
     this.selectedVariant = this.variants[0];
@@ -111,18 +111,18 @@ export default class PpPatternElement extends PpBaseLitElement {
         display: flex;
       }
 
-      ::slotted(pp-variant) {
+      ::slotted(puncture-variant) {
         flex: 1 1 auto;
       }
 
       .metadata {
         align-items: center;
-        background: var(--pp-color-gray);
+        background: var(--puncture-color-gray);
         border-bottom: 0.0625rem solid;
-        font-family: var(--pp-font-family);
+        font-family: var(--puncture-font-family);
         justify-content: space-between;
-        line-height: var(--pp-line-height);
-        padding: var(--pp-space-md);
+        line-height: var(--puncture-line-height);
+        padding: var(--puncture-space-md);
       }
 
       .metadata > * {
@@ -130,7 +130,7 @@ export default class PpPatternElement extends PpBaseLitElement {
       }
 
       .metadata > * + * {
-        margin-top: var(--pp-space-md);
+        margin-top: var(--puncture-space-md);
       }
 
       .metadata > h1 + p {
@@ -147,16 +147,16 @@ export default class PpPatternElement extends PpBaseLitElement {
       }
 
       .variant-link {
-        background: var(--pp-color-light);
+        background: var(--puncture-color-light);
         color: inherit;
         display: block;
-        padding: var(--pp-space-sm) var(--pp-space-md);
+        padding: var(--puncture-space-sm) var(--puncture-space-md);
         text-decoration: none;
       }
 
       .variant-link[aria-current='true'] {
-        background: var(--pp-color-secondary);
-        color: var(--pp-color-text-on-secondary);
+        background: var(--puncture-color-secondary);
+        color: var(--puncture-color-text-on-secondary);
       }
     `;
   }

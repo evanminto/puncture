@@ -1,15 +1,16 @@
-import PpBaseElement from './PpBaseElement.js';
+import { css, html } from 'lit-element';
+import BaseElement from './BaseElement.js';
 
-export default class PpFontStackElement extends PpBaseElement {
-  getHTML() {
-    return `
+export default class FontStackElement extends BaseElement {
+  render() {
+    return html`
       <p class="label">${this.getAttribute('label')}:</p>
       <p class="value">${this.getAttribute('value')}</p>
     `;
   }
 
-  getCSS() {
-    return `
+  static get styles() {
+    return css`
       :host {
         display: block;
       }
@@ -23,7 +24,6 @@ export default class PpFontStackElement extends PpBaseElement {
       }
 
       .value {
-        font-family: ${this.getAttribute('value')};
         font-size: 1.5em;
       }
     `;

@@ -1,5 +1,5 @@
 import { css, html } from 'lit-element';
-import PpBaseLitElement from './PpBaseLitElement.js';
+import BaseElement from './BaseElement.js';
 
 function sanitizeCode(str) {
   const lines = str.split("\n").filter(l => l.match(/\S/));
@@ -20,7 +20,7 @@ function sanitizeCode(str) {
   return lines.map(removeExtraSpaces).join("\n");
 }
 
-export default class PpVariantElement extends PpBaseLitElement {
+export default class VariantElement extends BaseElement {
   static get properties() {
     return {
       label: {
@@ -69,7 +69,7 @@ export default class PpVariantElement extends PpBaseLitElement {
       code {
         background: #eee;
         display: block;
-        padding: var(--pp-space-md);
+        padding: var(--puncture-space-md);
       }
 
       pre {

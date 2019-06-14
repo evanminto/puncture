@@ -1,7 +1,7 @@
 import { css, html } from 'lit-element';
-import PpBaseLitElement from './PpBaseLitElement';
+import BaseElement from './BaseElement';
 
-export default class PpSectionElement extends PpBaseLitElement {
+export default class SectionElement extends BaseElement {
   static get properties() {
     return {
       label: {
@@ -24,7 +24,7 @@ export default class PpSectionElement extends PpBaseLitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this.patterns = Array.from(this.querySelectorAll('pp-pattern'));
+    this.patterns = Array.from(this.querySelectorAll('puncture-pattern'));
   }
 
   static get styles() {

@@ -11,31 +11,31 @@ Not on NPM yet, but will be shortly.
 
 ```html
 <!-- Project wrapper -->
-<pp-project label="My Project">
+<puncture-project label="My Project">
 
   <!-- Sections for grouping patterns -->
-  <pp-section label="Form Elements">
+  <puncture-section label="Form Elements">
 
     <!-- Individual patterns with names and descriptions -->
-    <pp-pattern label="Button" description="Standard button element.">
+    <puncture-pattern label="Button" description="Standard button element.">
 
       <!-- Optional variants for showing different versions of the same pattern. -->
-      <pp-variant label="Default">
+      <puncture-variant label="Default">
         <button>Click me</button>
-      </pp-variant>
+      </puncture-variant>
 
-      <pp-variant label="Disabled">
+      <puncture-variant label="Disabled">
         <button disabled>Click me</button>
-      </pp-variant>
-    </pp-pattern>
-  </pp-section>
+      </puncture-variant>
+    </puncture-pattern>
+  </puncture-section>
 
-  <pp-section label="Text">
+  <puncture-section label="Text">
 
     <!-- Patterns can optionally omit the variants -->
-    <pp-pattern label="Paragraph">
+    <puncture-pattern label="Paragraph">
       <p>Lorem ipsum dolor sit amet.</p>
-    </pp-pattern>
-  </pp-section>
-</pp-project>
+    </puncture-pattern>
+  </puncture-section>
+</puncture-project>
 ```

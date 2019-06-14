@@ -5,16 +5,16 @@ import { terser } from 'rollup-plugin-terser';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: 'src/pattern-punch.js',
+  input: 'src/puncture.js',
   output: {
-    file: 'dist/pattern-punch.js',
+    file: 'dist/puncture.js',
     format: 'esm',
   },
   plugins: [
     resolve(),
     copy({
       assets: [
-        'src/css/pattern-punch.css',
+        'src/css/puncture.css',
       ],
     }),
     production && terser(),
