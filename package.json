@@ -1,19 +1,21 @@
 {
-  "name": "pattern-punch",
+  "name": "puncture",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "A minimal-setup, framework-agnostic pattern library tool implemented using Web Components.",
+  "main": "src/pattern-punch.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
-    "watch": "rollup -c --watch"
+    "watch": "rollup -c --watch",
+    "prepare": "npm run build"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "rollup": "^1.15.3",
     "rollup-plugin-copy-assets": "^2.0.1",
-    "rollup-plugin-node-resolve": "^5.0.2"
+    "rollup-plugin-node-resolve": "^5.0.2",
+    "rollup-plugin-terser": "^5.0.0"
   },
   "dependencies": {
     "lit-element": "^2.2.0"
