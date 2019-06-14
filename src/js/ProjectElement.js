@@ -31,8 +31,12 @@ export default class ProjectElement extends BaseElement {
     super();
 
     if (this.navShown === undefined) {
-      const lsValue = localStorage.getItem('puncture-nav-shown');
-      this.navShown = lsValue === null ? false : (lsValue === 'true');
+      if (this.isMobile()) {
+        this.navShown = false;
+      } else {
+        const lsValue = localStorage.getItem('puncture-nav-shown');
+        this.navShown = lsValue === null ? false : (lsValue === 'true');
+      }
     }
 
     this.label = this.label || 'Pattern Punch';
@@ -76,6 +80,15 @@ export default class ProjectElement extends BaseElement {
     });
   }
 
+  handleNavToggle() {
+    this.navShown = !this.navShown;
+    localStorage.setItem('puncture-nav-shown', this.navShown ? 'true' : 'false');
+  }
+
+  isMobile() {
+    return !matchMedia('(min-width: 40em)').matches;
+  }
+
   renderNavPattern(section, pattern) {
     const handleClick = event => {
       event.preventDefault();
@@ -86,18 +99,22 @@ export default class ProjectElement extends BaseElement {
 
       this.patterns.forEach(p => {
         p.open = (p === pattern);
-
-        if (p.open) {
-          window.history.pushState(
-            {
-              sectionLabel: section.label,
-              patternLabel: pattern.label,
-            },
-            document.title,
-            `${location.pathname}?pattern=${p.label}`
-          );
-        }
       });
+
+      if (pattern.open) {
+        window.history.pushState(
+          {
+            sectionLabel: section.label,
+            patternLabel: pattern.label,
+          },
+          document.title,
+          `${location.pathname}?pattern=${pattern.label}`
+        );
+      }
+
+      if (this.isMobile()) {
+        this.navShown = false;
+      }
     };
 
     return html`<a href="" @click="${handleClick}">${pattern.label}</a>`;
@@ -150,11 +167,6 @@ export default class ProjectElement extends BaseElement {
         <line x1="86" y1="14" x2="14" y2="86" />
       </svg>
     `;
-  }
-
-  handleNavToggle() {
-    this.navShown = !this.navShown;
-    localStorage.setItem('puncture-nav-shown', this.navShown ? 'true' : 'false');
   }
 
   render() {
@@ -216,6 +228,7 @@ export default class ProjectElement extends BaseElement {
         background: var(--puncture-color-gray);
         border-right: 0.0625rem solid;
         font-family: var(--puncture-font-family);
+        grid-area: auto / auto / auto / span 2;
         overflow-y: auto;
       }
 
@@ -247,6 +260,7 @@ export default class ProjectElement extends BaseElement {
       }
 
       nav + main {
+        display: none;
         grid-area: auto;
       }
 
@@ -290,7 +304,6 @@ export default class ProjectElement extends BaseElement {
         max-width: 100%;
         padding: var(--puncture-space-md);
         text-align: left;
-        width: 18rem;
       }
 
       .nav-toggle > * {
@@ -299,6 +312,20 @@ export default class ProjectElement extends BaseElement {
 
       .nav-toggle > * + * {
         margin-left: var(--puncture-space-md);
+      }
+
+      @media screen and (min-width: 40em) {
+        nav {
+          grid-area: auto;
+        }
+
+        nav + main {
+          display: block;
+        }
+
+        .nav-toggle {
+          width: 18rem;
+        }
       }
     `;
   }
