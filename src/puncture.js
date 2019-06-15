@@ -7,6 +7,7 @@ import FontScaleElement from './js/FontScaleElement.js';
 import VariantElement from './js/VariantElement.js';
 import BlockElement from './js/BlockElement.js';
 import SectionElement from './js/SectionElement.js';
+import PageElement from './js/PageElement.js';
 
 if (
   'customElements' in window &&
@@ -21,4 +22,5 @@ if (
   customElements.define('puncture-section', SectionElement);
   customElements.define('puncture-pattern', PatternElement);
   customElements.define('puncture-variant', VariantElement);
+  customElements.define('puncture-page', PageElement);
 }

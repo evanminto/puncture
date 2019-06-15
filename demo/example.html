@@ -13,11 +13,6 @@
 
       body {
         margin: 0;
-        color: red;
-      }
-
-      button {
-        font: inherit;
       }
     </style>
 
@@ -26,39 +21,60 @@
   </head>
   <body>
     <puncture-project label="Puncture Example">
+      <puncture-page id="home">
+        <h2>Puncture Example Pattern Library</h2>
+
+        <p>
+          This page shows an example library built using Puncture. It uses
+          sections, patterns, and pages to construct a hierarchy that shows up
+          in the left sidebar.
+        </p>
+      </puncture-page>
+
+      <puncture-section label="Type">
+        <puncture-pattern label="Paragraph" description="Standard paragraph element.">
+          <p>Lorem ipsum dolor sit amet</p>
+        </puncture-pattern>
+
+        <puncture-pattern label="Strong" description="Strong emphasis.">
+          This is <strong>really important</strong>.
+        </puncture-pattern>
+
+        <puncture-pattern label="Emphasis" description="Stress emphasis.">
+          You said <em>what</em>?
+        </puncture-pattern>
+      </puncture-section>
+
       <puncture-section label="Interactive">
-        <puncture-pattern label="Button" description="A standard button element.">
-          <puncture-variant label="Primary">
+        <puncture-pattern
+          label="Text Input"
+          description="Widget allowing the user to input a short string of text."
+        >
+          <puncture-variant label="Default">
+            <input>
+          </puncture-variant>
+
+          <puncture-variant label="Disabled">
+            <input disabled>
+          </puncture-variant>
+
+          <puncture-variant label="Read-Only">
+            <input readonly>
+          </puncture-variant>
+        </puncture-pattern>
+
+        <puncture-pattern label="Button" description="Standard button element.">
+          <puncture-variant label="Default">
             <button>Click me</button>
           </puncture-variant>
 
-          <puncture-variant label="Primary (Disabled)">
-            <button disabled>Click me</button>
-          </puncture-variant>
-
-          <puncture-variant label="Secondary">
-            <button>Click me</button>
-          </puncture-variant>
-
-          <puncture-variant label="Secondary (Disabled)">
+          <puncture-variant label="Disabled">
             <button disabled>Click me</button>
           </puncture-variant>
         </puncture-pattern>
 
         <puncture-pattern label="Link" description="Standard hyperlink.">
           <a href="">Link</a>
-        </puncture-pattern>
-      </puncture-section>
-
-      <puncture-section label="Form">
-        <puncture-pattern label="Checkbox and Label">
-          <input type="checkbox">
-          <label>Checkbox</label>
-        </puncture-pattern>
-
-        <puncture-pattern label="Text Input and Label">
-          <label>Checkbox</label>
-          <input type="text">
         </puncture-pattern>
       </puncture-section>
     </puncture-project>

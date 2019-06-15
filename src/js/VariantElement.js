@@ -84,7 +84,6 @@ export default class VariantElement extends BaseElement {
         border: 0;
         box-sizing: border-box;
         flex: 1 1 auto;
-        padding: 0.5rem;
         position: relative;
         width: 100%;
         z-index: 0;

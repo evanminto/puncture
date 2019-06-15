@@ -9,11 +9,19 @@ export default class ProjectElement extends BaseElement {
         attribute: true,
       },
 
+      punctureChildren: {
+        type: Array,
+      },
+
       sections: {
         type: Array,
       },
 
       patterns: {
+        type: Array,
+      },
+
+      pages: {
         type: Array,
       },
 
@@ -45,38 +53,50 @@ export default class ProjectElement extends BaseElement {
   connectedCallback() {
     super.connectedCallback();
 
+    this.punctureChildren = Array.from(this.querySelectorAll(':scope > puncture-section, :scope > puncture-pattern, :scope > puncture-page'));
+
     this.sections = Array.from(this.querySelectorAll('puncture-section'));
     this.patterns = Array.from(this.querySelectorAll('puncture-pattern'));
+    this.pages = Array.from(this.querySelectorAll('puncture-page'));
 
-    const searchParams = new URL(location).searchParams;
-    const selectedPattern = this.getPatternByLabel(searchParams.get('pattern'));
+    setTimeout(() => {
+      const target = document.querySelector(':target');
 
-    this.openPattern(selectedPattern);
+      if (target) {
+        this.openPatternOrPage(target);
+      } else {
+        const first = this.querySelector('puncture-pattern, puncture-page');
+        this.openPatternOrPage(first);
+      }
+    }, 500);
 
-    window.addEventListener('popstate', event => {
-      if (event.state) {
-        this.openPattern(this.getPatternByLabel(event.state.patternLabel));
+    window.addEventListener('hashchange', event => {
+      const target = document.querySelector(':target');
+      this.openPatternOrPage(target);
+
+      if (this.isMobile()) {
+        this.navShown = false;
       }
     });
   }
 
-  getPatternByLabel(label) {
-    return this.querySelector(`puncture-pattern[label='${label}']`);
-  }
-
-  openPattern(pattern) {
-    if (!pattern) {
+  openPatternOrPage(patternOrPage) {
+    if (!patternOrPage) {
       return;
     }
 
-    const section = pattern.closest('puncture-section');
+    const section = patternOrPage.closest('puncture-section');
 
     this.sections.forEach(s => {
       s.open = (s === section);
     });
 
+    this.pages.forEach(p => {
+      p.open = (p === patternOrPage)
+    });
+
     this.patterns.forEach(p => {
-      p.open = (p === pattern);
+      p.open = (p === patternOrPage);
     });
   }
 
@@ -89,48 +109,22 @@ export default class ProjectElement extends BaseElement {
     return !matchMedia('(min-width: 40em)').matches;
   }
 
-  renderNavPattern(section, pattern) {
-    const handleClick = event => {
-      event.preventDefault();
-
-      this.sections.forEach(s => {
-        s.open = (s === section);
-      });
-
-      this.patterns.forEach(p => {
-        p.open = (p === pattern);
-      });
-
-      if (pattern.open) {
-        window.history.pushState(
-          {
-            sectionLabel: section.label,
-            patternLabel: pattern.label,
-          },
-          document.title,
-          `${location.pathname}?pattern=${pattern.label}`
-        );
-      }
-
-      if (this.isMobile()) {
-        this.navShown = false;
-      }
-    };
-
-    return html`<a href="" @click="${handleClick}">${pattern.label}</a>`;
+  renderNavPatternOrPage(patternOrPage) {
+    return html`<a href="${`#${patternOrPage.id}`}">${patternOrPage.label}</a>`;
   }
 
   renderNavSection(section) {
-    const hasPatterns = section.patterns.length > 0;
+    const children = Array.from(section.querySelectorAll(':scope > puncture-pattern, :scope > puncture-page'));
+    const hasChildren = children.length > 0;
 
     return html`
       <details>
         <summary>${section.label}</summary>
 
-        ${hasPatterns ? html`
+        ${hasChildren ? html`
           <ul>
-            ${section.patterns.map(pattern => html`
-              <li>${this.renderNavPattern(section, pattern)}</li>
+            ${children.map(child => html`
+              <li>${this.renderNavChild(child)}</li>
             `)}
           </ul>
         ` : ''}
@@ -138,12 +132,20 @@ export default class ProjectElement extends BaseElement {
     `;
   }
 
+  renderNavChild(child) {
+    if (child.matches('puncture-section')) {
+      return this.renderNavSection(child);
+    } else if (child.matches('puncture-pattern, puncture-page')) {
+      return this.renderNavPatternOrPage(child);
+    }
+  }
+
   renderNav() {
     return html`
       <nav>
         <ul>
-          ${this.sections.map(section => html`
-            <li>${this.renderNavSection(section)}</li>
+          ${this.punctureChildren.map(child => html`
+            <li>${this.renderNavChild(child)}</li>
           `)}
         </ul>
       </nav>
