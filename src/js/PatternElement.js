@@ -56,43 +56,51 @@ export default class PatternElement extends BaseElement {
     this.variants[0].setAttribute('slot', 'selected');
   }
 
+  selectVariant(variant) {
+    this.variants.forEach(v => {
+      if (variant === v) {
+        v.setAttribute('slot', 'selected');
+        this.selectedVariant = v;
+      } else {
+        v.removeAttribute('slot');
+      }
+    });
+  }
+
+  renderVariantLink(variant) {
+    const handleClick = event => {
+      event.preventDefault();
+      this.selectVariant(variant);
+    };
+
+    return html`
+      <a
+        href=""
+        class="variant-link"
+        @click="${handleClick}"
+        aria-current="${this.selectedVariant === variant}"
+      >
+        ${variant.label}
+      </a>
+    `;
+  }
+
+  renderVariantsList() {
+    return html`
+      <ul class="variants-list">
+        ${this.variants.map(variant => html`
+          <li>${this.renderVariantLink(variant)}</li>
+        `)}
+      </ul>
+    `;
+  }
+
   render() {
     return html`
       <div class="metadata">
         <h1>${this.label}</h1>
         <p>${this.description}</p>
-
-        ${this.variants.length > 1 ? html`
-          <ul class="variants-list">
-            ${this.variants.map(variant => {
-              const handleClick = event => {
-                event.preventDefault();
-
-                this.variants.forEach(v => {
-                  if (variant === v) {
-                    v.setAttribute('slot', 'selected');
-                    this.selectedVariant = v;
-                  } else {
-                    v.removeAttribute('slot');
-                  }
-                })
-              };
-
-              return html`
-                <li>
-                  <a
-                    href=""
-                    class="variant-link"
-                    @click="${handleClick}"
-                    aria-current="${this.selectedVariant === variant ? 'true' : 'false'}"
-                  >
-                    ${variant.label}
-                  </a>
-                </li>
-              `;
-            })}
-          </ul>
-        ` : ''}
+        ${this.variants.length > 1 ? this.renderVariantsList() : ''}
       </div>
 
       <slot name="selected"></slot>

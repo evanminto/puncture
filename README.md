@@ -5,9 +5,20 @@ libraries, built using Web Components.
 
 ## Installation
 
-Not on NPM yet, but will be shortly.
+```sh
+npm install @evanminto/puncture
+```
 
 ## How to Use
+
+Include the JavaScript and CSS files in an HTML.
+
+```html
+<link href="path/to/puncture.css" rel="stylesheet">
+<script src="path/to/puncture.js" defer></script>
+```
+
+Then include all of your patterns on the page and wrap them inside Puncture custom elements.
 
 ```html
 <!-- Project wrapper -->
@@ -39,3 +50,30 @@ Not on NPM yet, but will be shortly.
   </puncture-section>
 </puncture-project>
 ```
+
+## Element Reference
+
+### `puncture-project`
+
+#### Attributes
+
+* `label`
+
+### `puncture-section`
+
+#### Attributes
+
+* `label`
+
+### `puncture-pattern`
+
+#### Attributes
+
+* `label`
+* `description`
+
+### `puncture-variant`
+
+#### Attributes
+
+* `label`

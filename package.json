@@ -1,6 +1,6 @@
 {
   "name": "@evanminto/puncture",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A minimal-setup, framework-agnostic pattern library tool implemented using Web Components.",
   "main": "src/pattern-punch.js",
   "scripts": {

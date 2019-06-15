@@ -27,6 +27,10 @@ export default class SectionElement extends BaseElement {
     this.patterns = Array.from(this.querySelectorAll('puncture-pattern'));
   }
 
+  render() {
+    return html`<slot></slot>`;
+  }
+
   static get styles() {
     return css`
       :host {
@@ -38,9 +42,5 @@ export default class SectionElement extends BaseElement {
         display: block;
       }
     `;
-  }
-
-  render() {
-    return html`<slot></slot>`;
   }
 }
