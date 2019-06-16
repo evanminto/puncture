@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width">
+
+    <title>Puncture Example</title>
+
+    <style>
+      html {
+        font-size: 1.25rem;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        font-family: Georgia, sans-serif;
+        margin: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: Arial, sans-serif;
+        font-size: 1.5rem;
+      }
+
+      puncture-project {
+        --puncture-color-accent: blue;
+        --puncture-color-accent-2: #0000cc;
+        --puncture-color-light: white;
+        --puncture-color-light-2: #eee;
+        --puncture-color-dark: black;
+        --puncture-color-mid: white;
+        --puncture-color-mid-2: #eee;
+
+        --puncture-font-family-default: Georgia, serif;
+        --puncture-font-family-control: Arial, sans-serif;
+        --puncture-font-family-title: Arial, sans-serif;
+
+        --puncture-font-scale: 1.5;
+      }
+    </style>
+
+    <link href="../dist/puncture.css" rel="stylesheet">
+    <script src="../dist/puncture.js" defer></script>
+  </head>
+  <body>
+    <puncture-project label="Puncture Example" no-dark-mode>
+      <puncture-page id="home">
+        <h2>Puncture Example Pattern Library</h2>
+
+        <p>
+          This page shows an example library built using Puncture. It uses
+          sections, patterns, and pages to construct a hierarchy that shows up
+          in the left sidebar.
+        </p>
+      </puncture-page>
+
+      <puncture-section label="Type">
+        <puncture-pattern
+          label="Paragraph"
+          description="Standard paragraph element."
+        >
+          <p>Lorem ipsum dolor sit amet</p>
+        </puncture-pattern>
+
+        <puncture-pattern label="Strong" description="Strong emphasis.">
+          This is <strong>really important</strong>.
+        </puncture-pattern>
+
+        <puncture-pattern label="Emphasis" description="Stress emphasis.">
+          You said <em>what</em>?
+        </puncture-pattern>
+      </puncture-section>
+
+      <puncture-section label="Interactive">
+        <puncture-pattern
+          label="Text Input"
+          description="Widget allowing the user to input a short string of text."
+        >
+          <puncture-variant label="Default">
+            <input>
+          </puncture-variant>
+
+          <puncture-variant label="Disabled">
+            <input disabled>
+          </puncture-variant>
+
+          <puncture-variant label="Read-Only">
+            <input readonly>
+          </puncture-variant>
+
+          <puncture-variant label="With Placeholder">
+            <input placeholder="Write some text here...">
+          </puncture-variant>
+        </puncture-pattern>
+
+        <puncture-pattern label="Button" description="Standard button element.">
+          <puncture-variant label="Default">
+            <button>Click me</button>
+          </puncture-variant>
+
+          <puncture-variant label="Disabled">
+            <button disabled>Click me</button>
+          </puncture-variant>
+        </puncture-pattern>
+
+        <puncture-pattern label="Link" description="Standard hyperlink.">
+          <a href="">Link</a>
+        </puncture-pattern>
+      </puncture-section>
+    </puncture-project>
+  </body>
+</html>

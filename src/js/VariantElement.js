@@ -32,10 +32,6 @@ export default class VariantElement extends BaseElement {
         type: String,
         attribute: true,
       },
-
-      iframe: {
-        type: Object,
-      },
     };
   }
 
@@ -44,7 +40,8 @@ export default class VariantElement extends BaseElement {
 
     const doc = document.documentElement.cloneNode(true);
     doc.querySelector('body').innerHTML = this.innerHTML;
-    this.dataUri = `data:text/html,${doc.outerHTML}`;
+    const base64encoded = btoa(doc.outerHTML);
+    this.dataUri = `data:text/html;base64,${base64encoded}`;
 
     this.code = sanitizeCode(this.innerHTML);
   }

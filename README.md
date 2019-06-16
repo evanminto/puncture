@@ -131,3 +131,8 @@ demonstrate and test the patterns on a site, regardless of the framework. Web Co
 allow this flexibility, as they are part of the Web platform and thus can be
 used on traditional server-rendered PHP sites, React sites, and everything in
 between.
+
+## Theming
+
+The interface can be themed using CSS Custom Properties. Full documentation on
+the available properties will be here shortly.

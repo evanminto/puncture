@@ -125,9 +125,10 @@ export default class PatternElement extends BaseElement {
 
       .metadata {
         align-items: center;
-        background: var(--puncture-color-gray);
+        background: var(--puncture-color-mid);
         border-bottom: 0.0625rem solid;
-        font-family: var(--puncture-font-family);
+        color: var(--puncture-color-text-on-mid);
+        font-family: var(--puncture-font-family-default);
         justify-content: space-between;
         line-height: var(--puncture-line-height);
         padding: var(--puncture-space-md);
@@ -145,6 +146,11 @@ export default class PatternElement extends BaseElement {
         margin-top: 0;
       }
 
+      .metadata h1 {
+        font-family: var(--puncture-font-family-title);
+        font-size: var(--puncture-font-size-large);
+      }
+
       .variants-list {
         list-style: none;
         padding: 0;
@@ -155,16 +161,25 @@ export default class PatternElement extends BaseElement {
       }
 
       .variant-link {
-        background: var(--puncture-color-light);
-        color: inherit;
+        background: var(--puncture-color-bg);
+        color: var(--puncture-color-text-on-bg);
         display: block;
+        font-family: var(--puncture-font-family-control);
         padding: var(--puncture-space-sm) var(--puncture-space-md);
         text-decoration: none;
+        transition:
+          background var(--puncture-transition-duration) ease-in-out,
+          color var(--puncture-transition-duration) ease-in-out;
+      }
+
+      .variant-link:focus,
+      .variant-link:hover {
+        background: var(--puncture-color-bg-2);
       }
 
       .variant-link[aria-current='true'] {
-        background: var(--puncture-color-secondary);
-        color: var(--puncture-color-text-on-secondary);
+        background: var(--puncture-color-text-on-mid);
+        color: var(--puncture-color-mid);
       }
     `;
   }

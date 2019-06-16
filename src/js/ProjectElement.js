@@ -98,6 +98,8 @@ export default class ProjectElement extends BaseElement {
     this.patterns.forEach(p => {
       p.open = (p === patternOrPage);
     });
+
+    this.update();
   }
 
   handleNavToggle() {
@@ -110,7 +112,11 @@ export default class ProjectElement extends BaseElement {
   }
 
   renderNavPatternOrPage(patternOrPage) {
-    return html`<a href="${`#${patternOrPage.id}`}">${patternOrPage.label}</a>`;
+    return html`
+      <a href="${`#${patternOrPage.id}`}" aria-current="${patternOrPage.open ? 'page' : 'false'}">
+        ${patternOrPage.label}
+      </a>
+    `;
   }
 
   renderNavSection(section) {
@@ -118,7 +124,7 @@ export default class ProjectElement extends BaseElement {
     const hasChildren = children.length > 0;
 
     return html`
-      <details>
+      <details ?open="${section.open}">
         <summary>${section.label}</summary>
 
         ${hasChildren ? html`
@@ -196,16 +202,34 @@ export default class ProjectElement extends BaseElement {
   static get styles() {
     return css`
       :host {
-        --puncture-color-primary: #222;
-        --puncture-color-secondary: #555;
-        --puncture-color-dark: black;
-        --puncture-color-gray: #eee;
+        --puncture-color-dark: #070707;
+        --puncture-color-mid: #eee;
         --puncture-color-light: white;
 
-        --puncture-color-text: var(--puncture-color-dark);
-        --puncture-color-text-on-secondary: var(--puncture-color-light);
+        --puncture-color-dark-2: #131313;
+        --puncture-color-mid-2: #e6e6e6;
+        --puncture-color-light-2: #f6f6f6;
+
+        --puncture-color-accent-light-mode: brown;
+        --puncture-color-accent-2-light-mode: darkred;
+        --puncture-color-accent-dark-mode: #550000;
+        --puncture-color-accent-2-dark-mode: #390000;
+        --puncture-color-accent: var(--puncture-color-accent-light-mode);
+        --puncture-color-accent-2: var(--puncture-color-accent-2-light-mode);
 
         --puncture-color-bg: var(--puncture-color-light);
+        --puncture-color-bg-2: var(--puncture-color-light-2);
+
+        --puncture-color-text: var(--puncture-color-dark);
+        --puncture-color-text-on-dark: var(--puncture-color-light);
+        --puncture-color-text-on-mid: var(--puncture-color-dark);
+        --puncture-color-text-on-light: var(--puncture-color-dark);
+
+        --puncture-color-text-on-accent-light-mode: var(--puncture-color-light);
+        --puncture-color-text-on-accent-dark-mode: var(--puncture-color-light);
+        --puncture-color-text-on-accent: var(--puncture-color-text-on-accent-light-mode);
+
+        --puncture-color-text-on-bg: var(--puncture-color-dark);
 
         --puncture-space-base: 0.5rem;
 
@@ -216,20 +240,49 @@ export default class ProjectElement extends BaseElement {
 
         --puncture-max-width: 60rem;
 
-        --puncture-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, system-ui, sans-serif;
+        --puncture-font-family-default: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, system-ui, sans-serif;
+        --puncture-font-family-title: var(--puncture-font-family-default);
+        --puncture-font-family-control: var(--puncture-font-family-default);
+
+        --puncture-font-scale: 1.666;
+        --puncture-font-size-large: calc(1em * var(--puncture-font-scale));
+        --puncture-font-size-small: calc(1em / var(--puncture-font-scale));
 
         --puncture-line-height: 1.5;
         --puncture-header-height: calc(var(--puncture-line-height) * 1rem + var(--puncture-space-sm) * 2);
 
-        color: var(--puncture-color-text);
+        --puncture-transition-duration: 125ms;
+
         height: 100%;
         max-height: 100%;
       }
 
+      @media (prefers-color-scheme: dark) {
+        :host(:not([no-dark-mode])) {
+          --puncture-color-accent: var(--puncture-color-accent-dark-mode);
+          --puncture-color-accent-2: var(--puncture-color-accent-2-dark-mode);
+          --puncture-color-text-on-accent: var(--puncture-color-text-on-accent-dark-mode);
+
+          --puncture-color-mid: #2a2a2a;
+          --puncture-color-mid-2: #202020;
+          --puncture-color-text-on-mid: var(--puncture-color-light);
+
+          --puncture-color-bg: var(--puncture-color-dark);
+          --puncture-color-bg-2: var(--puncture-color-dark-2);
+          --puncture-color-text-on-bg: var(--puncture-color-light);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        :host {
+          --puncture-transition-duration: 0ms;
+        }
+      }
+
       nav {
-        background: var(--puncture-color-gray);
-        border-right: 0.0625rem solid;
-        font-family: var(--puncture-font-family);
+        background: var(--puncture-color-mid);
+        color: var(--puncture-color-text-on-mid);
+        font-family: var(--puncture-font-family-control);
         grid-area: auto / auto / auto / span 2;
         overflow-y: auto;
       }
@@ -241,7 +294,13 @@ export default class ProjectElement extends BaseElement {
       }
 
       nav ul ul {
-        background: var(--puncture-color-light);
+        background: var(--puncture-color-bg);
+        color: var(--puncture-color-text-on-bg);
+      }
+
+      nav summary,
+      nav a {
+        transition: background var(--puncture-transition-duration) ease-in-out;
       }
 
       nav summary {
@@ -255,6 +314,26 @@ export default class ProjectElement extends BaseElement {
         display: block;
         padding: var(--puncture-space-sm) var(--puncture-space-md) var(--puncture-space-sm) var(--puncture-space-lg);
         text-decoration: none;
+        transition: border var(--puncture-transition-duration) ease-in-out;
+      }
+
+      nav a[aria-current='page'] {
+        border-right: 0.375rem solid;
+      }
+
+      nav summary:focus,
+      nav summary:hover {
+        background: var(--puncture-color-mid-2);
+      }
+
+      nav a:focus,
+      nav a:hover {
+        background: var(--puncture-color-mid-2);
+      }
+
+      nav ul ul a:focus,
+      nav ul ul a:hover {
+        background: var(--puncture-color-bg-2);
       }
 
       main {
@@ -267,10 +346,10 @@ export default class ProjectElement extends BaseElement {
       }
 
       header {
-        background: var(--puncture-color-secondary);
+        background: var(--puncture-color-accent);
         box-sizing: border-box;
-        color: var(--puncture-color-text-on-secondary);
-        font-family: var(--puncture-font-family);
+        color: var(--puncture-color-text-on-accent);
+        font-family: var(--puncture-font-family-default);
         grid-area: 1 / 1 / span 1 / span 2;
         height: 100%;
         width: 100%;
@@ -301,11 +380,13 @@ export default class ProjectElement extends BaseElement {
         border-right: 0.0625rem solid;
         color: inherit;
         font: inherit;
+        font-family: var(--puncture-font-family-control);
         font-weight: 700;
         margin: 0;
         max-width: 100%;
         padding: var(--puncture-space-md);
         text-align: left;
+        transition: background var(--puncture-transition-duration) ease-in-out;
       }
 
       .nav-toggle > * {
@@ -316,8 +397,14 @@ export default class ProjectElement extends BaseElement {
         margin-left: var(--puncture-space-md);
       }
 
+      .nav-toggle:focus,
+      .nav-toggle:hover {
+        background: var(--puncture-color-accent-2);
+      }
+
       @media screen and (min-width: 40em) {
         nav {
+          border-right: 0.0625rem solid;
           grid-area: auto;
         }
 

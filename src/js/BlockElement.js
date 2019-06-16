@@ -16,7 +16,7 @@ export default class BlockElement extends BaseElement {
         align-items: center;
         background: #eee;
         border: 0.0625rem solid;
-        color: var(--puncture-color-gray);
+        color: var(--puncture-color-mid);
         display: flex;
         height: 7.5em;
         justify-content: center;

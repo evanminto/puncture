@@ -31,7 +31,7 @@ export default class ColorsElement extends BaseElement {
     return css`
       :host {
         display: block;
-        font-family: var(--puncture-font-family);
+        font-family: var(--puncture-font-family-default);
         line-height: var(--puncture-line-height);
       }
 

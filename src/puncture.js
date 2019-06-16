@@ -13,7 +13,6 @@ if (
   'customElements' in window &&
   'attachShadow' in document.createElement('div')
 ) {
-  customElements.define('puncture-project', ProjectElement);
   customElements.define('puncture-color', ColorElement);
   customElements.define('puncture-colors', ColorsElement);
   customElements.define('puncture-font-stack', FontStackElement);
@@ -23,4 +22,5 @@ if (
   customElements.define('puncture-pattern', PatternElement);
   customElements.define('puncture-variant', VariantElement);
   customElements.define('puncture-page', PageElement);
+  customElements.define('puncture-project', ProjectElement);
 }
