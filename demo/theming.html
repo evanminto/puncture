@@ -46,12 +46,17 @@
 
       puncture-project {
         --puncture-color-accent: blue;
-        --puncture-color-accent-2: #0000cc;
+        --puncture-color-accent-2: #0000aa;
         --puncture-color-light: white;
         --puncture-color-light-2: #eee;
         --puncture-color-dark: black;
+        --puncture-color-dark-2: black;
         --puncture-color-mid: white;
         --puncture-color-mid-2: #eee;
+        --puncture-color-bg: white;
+        --puncture-color-bg-2: #eee;
+        --puncture-color-text-on-mid: black;
+        --puncture-color-text-on-bg: black;
 
         --puncture-font-family-default: Georgia, serif;
         --puncture-font-family-control: Arial, sans-serif;
@@ -59,13 +64,26 @@
 
         --puncture-font-scale: 1.5;
       }
+
+      @media (prefers-color-scheme: dark) {
+        puncture-project {
+          --puncture-color-accent: #0000aa;
+          --puncture-color-accent-2: blue;
+          --puncture-color-mid: hsl(240, 30%, 15%);
+          --puncture-color-mid-2: black;
+          --puncture-color-bg: hsl(240, 30%, 15%);
+          --puncture-color-bg-2: black;
+          --puncture-color-text-on-mid: white;
+          --puncture-color-text-on-bg: white;
+        }
+      }
     </style>
 
     <link href="../dist/puncture.css" rel="stylesheet">
     <script src="../dist/puncture.js" defer></script>
   </head>
   <body>
-    <puncture-project label="Puncture Example" no-dark-mode>
+    <puncture-project label="Puncture Example">
       <puncture-page id="home">
         <h2>Puncture Example Pattern Library</h2>
 

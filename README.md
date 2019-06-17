@@ -134,5 +134,124 @@ between.
 
 ## Theming
 
-The interface can be themed using CSS Custom Properties. Full documentation on
-the available properties will be here shortly.
+You may want to style the pattern library to match your site or app design. You
+can do this by theming the interface with CSS Custom Properties. All custom
+properties should be set on the `<puncture-project>` element so that they
+cascade to child elements.
+
+All properties are optional. Some properties are computed based on other ones by
+default. For example, if you change the value of `--puncture-font-scale`, it
+changes the computed values of `--puncture-font-size-large` and
+`--puncture-font-size-small`. If you want to opt out of the automatic
+computation, you can also set `--puncture-font-size-large` and
+`--puncture-font-size-small` manually.
+
+### Custom Properties
+```css
+puncture-project {
+  /* Dark color (usually black or off-black) */
+  --puncture-color-dark: hsl(0, 0%, 5%);
+  /* Mid color (usually gray) */
+  --puncture-color-mid: hsl(0, 0%, 90%);
+  /* Light color (usually white or off-white) */
+  --puncture-color-light: hsl(0, 0%, 100%);
+
+  /* Accent or brand color */
+  --puncture-color-accent: blue;
+  /* Default background color (usually a neutral color like white) */
+  --puncture-color-bg: white;
+  /* Color for interface controls like butons */
+  --puncture-color-control: red;
+
+  /* Alternative colors for focus/hover/etc. effects */
+  --puncture-color-dark-2: hsl(0, 0%, 12%);
+  --puncture-color-mid-2: hsl(0, 0%, 85%);
+  --puncture-color-light-2: hsl(0, 0%, 95%);
+  --puncture-color-accent-2: darkblue;
+  --puncture-color-bg-2: hsl(0, 0%, 97%);
+  --puncture-color-control-2: darkred;
+
+  /* Default text color */
+  --puncture-color-text: black;
+
+  /* Text colors based on background color */
+  --puncture-color-text-on-dark: white;
+  --puncture-color-text-on-mid: black;
+  --puncture-color-text-on-light: black;
+  --puncture-color-text-on-accent: white;
+  --puncture-color-text-on-bg: black;
+  --puncture-color-text-on-control: white;
+
+  --puncture-font-family-default: 'Times New Roman', serif;
+  --puncture-font-family-title: Helvetica, sans-serif;
+  --puncture-font-family-control: Helvetica, sans-serif;
+
+  /* Modular type scale for computing large/small font sizes */
+  --puncture-font-scale: 1.666;
+
+  /* You can also manually set the font sizes to override the modular scale */
+  --puncture-font-size-large: 2rem;
+  --puncture-font-size-small: 0.5rem;
+
+  /* Default line height for type */
+  --puncture-line-height: 1.5;
+
+  /* Base spacing variable used to compute modular spacing (based on line height by default) */
+  --puncture-space-base: 1.5rem;
+  /* Modular spacing scale for computing spacing variables */
+  --puncture-space-scale: 1.5;
+
+  /* You can also manually set the spacing variables to override the modular scale */
+  --puncture-space-md: 1rem;
+  --puncture-space-sm: 0.75rem;
+  --puncture-space-xs: 0.5rem;
+  --puncture-space-lg: 1.25rem;
+  --puncture-space-xl: 1.5rem;
+
+  /* All transitions will run for the specified duration */
+  --puncture-transition-duration: 125ms;
+}
+```
+
+### Special Cases
+
+By default, Puncture modifies the theme based on two conditions:
+
+* Dark Mode (as determined by the `prefers-color-scheme` media query)
+* Reduced Motion Mode (as determined by the `prefers-reduced-motion` media
+  query)
+
+If you're overriding the theming custom properties, make sure to override the
+properties for these cases as well, if necessary.
+
+#### Example
+
+```css
+puncture-project {
+  --puncture-color-accent: lightblue;
+  --puncture-color-accent-2: #0000aa;
+  --puncture-color-mid: hsl(0, 0%, 95%);
+  --puncture-color-mid-2: hsl(0, 0%, 90%);
+}
+
+@media (prefers-color-scheme: dark) {
+  puncture-project {
+    /* Override with darker colors */
+    --puncture-color-accent: #0000aa;
+    --puncture-color-accent-2: blue;
+    --puncture-color-mid: hsl(0, 0%, 15%);
+    --puncture-color-mid-2: hsl(0, 0%, 10%);
+  }
+}
+```
+
+#### Turning off Dark Mode
+
+If you don’t want the project to respond to Dark Mode at all, set the
+`no-dark-mode` attribute on the `<puncture-project>` element, like so:
+
+```html
+<puncture-project no-dark-mode>
+  ...
+</puncture-project>
+```

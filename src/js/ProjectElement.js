@@ -250,16 +250,6 @@ export default class ProjectElement extends BaseElement {
         --puncture-color-text-on-bg: var(--puncture-color-dark);
         --puncture-color-text-on-control: var(--puncture-color-dark);
 
-        --puncture-space-base: 1.5rem;
-
-        --puncture-space-md: var(--puncture-space-base);
-        --puncture-space-sm: calc(var(--puncture-space-md) / 2);
-        --puncture-space-xs: calc(var(--puncture-space-sm) / 2);
-        --puncture-space-lg: calc(var(--puncture-space-md) * 2);
-        --puncture-space-xl: calc(var(--puncture-space-lg) * 2);
-
-        --puncture-max-width: 60rem;
-
         --puncture-font-family-default: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, system-ui, sans-serif;
         --puncture-font-family-title: var(--puncture-font-family-default);
         --puncture-font-family-control: var(--puncture-font-family-default);
@@ -269,7 +259,15 @@ export default class ProjectElement extends BaseElement {
         --puncture-font-size-small: calc(1em / var(--puncture-font-scale));
 
         --puncture-line-height: 1.5;
-        --puncture-header-height: calc(var(--puncture-line-height) * 1rem + var(--puncture-space-sm) * 2);
+
+        --puncture-space-base: calc(1rem * var(--puncture-line-height));
+        --puncture-space-scale: 2;
+
+        --puncture-space-md: var(--puncture-space-base);
+        --puncture-space-sm: calc(var(--puncture-space-md) / var(--puncture-space-scale));
+        --puncture-space-xs: calc(var(--puncture-space-sm) / var(--puncture-space-scale));
+        --puncture-space-lg: calc(var(--puncture-space-md) * var(--puncture-space-scale));
+        --puncture-space-xl: calc(var(--puncture-space-lg) * var(--puncture-space-scale));
 
         --puncture-transition-duration: 125ms;
 
