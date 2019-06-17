@@ -161,25 +161,36 @@ export default class PatternElement extends BaseElement {
       }
 
       .variant-link {
-        background: var(--puncture-color-bg);
-        color: var(--puncture-color-text-on-bg);
+        background: var(--puncture-color-control);
+        color: var(--puncture-color-text-on-control);
         display: block;
         font-family: var(--puncture-font-family-control);
-        padding: var(--puncture-space-sm) var(--puncture-space-md);
+        padding: var(--puncture-space-xs) var(--puncture-space-sm);
+        position: relative;
         text-decoration: none;
         transition:
           background var(--puncture-transition-duration) ease-in-out,
           color var(--puncture-transition-duration) ease-in-out;
       }
 
-      .variant-link:focus,
-      .variant-link:hover {
-        background: var(--puncture-color-bg-2);
+      .variant-link::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: var(--puncture-space-sm);
+        bottom: calc(var(--puncture-space-xs) * 3 / 4);
+        right: var(--puncture-space-sm);
+        border-bottom: 0 solid var(--puncture-color-accent);
+        transition: border var(--puncture-transition-duration) ease-in-out;
       }
 
-      .variant-link[aria-current='true'] {
-        background: var(--puncture-color-text-on-mid);
-        color: var(--puncture-color-mid);
+      .variant-link:focus,
+      .variant-link:hover {
+        background: var(--puncture-color-control-2);
+      }
+
+      .variant-link[aria-current='true']::after {
+        border-bottom-width: calc(var(--puncture-space-xs) / 2);
       }
     `;
   }

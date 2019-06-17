@@ -32,6 +32,10 @@ export default class ProjectElement extends BaseElement {
       navShown: {
         type: Boolean,
       },
+
+      openSections: {
+        type: Array,
+      },
     };
   }
 
@@ -48,6 +52,7 @@ export default class ProjectElement extends BaseElement {
     }
 
     this.label = this.label || 'Pattern Punch';
+    this.openSections = [];
   }
 
   connectedCallback() {
@@ -113,18 +118,36 @@ export default class ProjectElement extends BaseElement {
 
   renderNavPatternOrPage(patternOrPage) {
     return html`
-      <a href="${`#${patternOrPage.id}`}" aria-current="${patternOrPage.open ? 'page' : 'false'}">
+      <a
+        href="${`#${patternOrPage.id}`}"
+        aria-current="${patternOrPage.open ? 'page' : 'false'}"
+      >
         ${patternOrPage.label}
       </a>
     `;
   }
 
   renderNavSection(section) {
-    const children = Array.from(section.querySelectorAll(':scope > puncture-pattern, :scope > puncture-page'));
+    const children = Array.from(section.querySelectorAll(
+      ':scope > puncture-pattern, :scope > puncture-page'
+    ));
+
     const hasChildren = children.length > 0;
 
+    const handleToggle = event => {
+      if (event.target.open) {
+        this.openSections.push(section);
+      } else {
+        const index = this.openSections.indexOf(section);
+
+        if (index >= 0) {
+          this.openSections.splice(index, 1);
+        }
+      }
+    };
+
     return html`
-      <details ?open="${section.open}">
+      <details ?open="${this.openSections.indexOf(section) >= 0 || section.open}" @toggle="${handleToggle}">
         <summary>${section.label}</summary>
 
         ${hasChildren ? html`
@@ -202,39 +225,36 @@ export default class ProjectElement extends BaseElement {
   static get styles() {
     return css`
       :host {
-        --puncture-color-dark: #070707;
-        --puncture-color-mid: #eee;
-        --puncture-color-light: white;
+        --puncture-color-dark: hsl(0, 0%, 5%);
+        --puncture-color-mid: hsl(0, 0%, 90%);
+        --puncture-color-light: hsl(0, 0%, 100%);
 
-        --puncture-color-dark-2: #131313;
-        --puncture-color-mid-2: #e6e6e6;
-        --puncture-color-light-2: #f6f6f6;
+        --puncture-color-dark-2: hsl(0, 0%, 12%);
+        --puncture-color-mid-2: hsl(0, 0%, 85%);
+        --puncture-color-light-2: hsl(0, 0%, 95%);
 
-        --puncture-color-accent-light-mode: brown;
-        --puncture-color-accent-2-light-mode: darkred;
-        --puncture-color-accent-dark-mode: #550000;
-        --puncture-color-accent-2-dark-mode: #390000;
-        --puncture-color-accent: var(--puncture-color-accent-light-mode);
-        --puncture-color-accent-2: var(--puncture-color-accent-2-light-mode);
+        --puncture-color-accent: var(--puncture-color-dark);
+        --puncture-color-accent-2: var(--puncture-color-dark-2);
 
         --puncture-color-bg: var(--puncture-color-light);
         --puncture-color-bg-2: var(--puncture-color-light-2);
+
+        --puncture-color-control: var(--puncture-color-light);
+        --puncture-color-control-2: var(--puncture-color-light-2);
 
         --puncture-color-text: var(--puncture-color-dark);
         --puncture-color-text-on-dark: var(--puncture-color-light);
         --puncture-color-text-on-mid: var(--puncture-color-dark);
         --puncture-color-text-on-light: var(--puncture-color-dark);
-
-        --puncture-color-text-on-accent-light-mode: var(--puncture-color-light);
-        --puncture-color-text-on-accent-dark-mode: var(--puncture-color-light);
-        --puncture-color-text-on-accent: var(--puncture-color-text-on-accent-light-mode);
-
+        --puncture-color-text-on-accent: var(--puncture-color-light);
         --puncture-color-text-on-bg: var(--puncture-color-dark);
+        --puncture-color-text-on-control: var(--puncture-color-dark);
 
-        --puncture-space-base: 0.5rem;
+        --puncture-space-base: 1.5rem;
 
-        --puncture-space-sm: var(--puncture-space-base);
-        --puncture-space-md: calc(var(--puncture-space-sm) * 2);
+        --puncture-space-md: var(--puncture-space-base);
+        --puncture-space-sm: calc(var(--puncture-space-md) / 2);
+        --puncture-space-xs: calc(var(--puncture-space-sm) / 2);
         --puncture-space-lg: calc(var(--puncture-space-md) * 2);
         --puncture-space-xl: calc(var(--puncture-space-lg) * 2);
 
@@ -259,12 +279,12 @@ export default class ProjectElement extends BaseElement {
 
       @media (prefers-color-scheme: dark) {
         :host(:not([no-dark-mode])) {
-          --puncture-color-accent: var(--puncture-color-accent-dark-mode);
-          --puncture-color-accent-2: var(--puncture-color-accent-2-dark-mode);
-          --puncture-color-text-on-accent: var(--puncture-color-text-on-accent-dark-mode);
+          --puncture-color-accent: var(--puncture-color-dark);
+          --puncture-color-accent-2: var(--puncture-color-dark-2);
+          --puncture-color-text-on-accent: var(--puncture-color-light);
 
-          --puncture-color-mid: #2a2a2a;
-          --puncture-color-mid-2: #202020;
+          --puncture-color-mid: hsl(0, 0%, 15%);
+          --puncture-color-mid-2: hsl(0, 0%, 10%);
           --puncture-color-text-on-mid: var(--puncture-color-light);
 
           --puncture-color-bg: var(--puncture-color-dark);
@@ -312,9 +332,13 @@ export default class ProjectElement extends BaseElement {
       nav a {
         color: inherit;
         display: block;
-        padding: var(--puncture-space-sm) var(--puncture-space-md) var(--puncture-space-sm) var(--puncture-space-lg);
+        padding: var(--puncture-space-sm) var(--puncture-space-md);
         text-decoration: none;
         transition: border var(--puncture-transition-duration) ease-in-out;
+      }
+
+      nav ul ul a {
+        padding-left: var(--puncture-space-lg);
       }
 
       nav a[aria-current='page'] {
@@ -384,7 +408,7 @@ export default class ProjectElement extends BaseElement {
         font-weight: 700;
         margin: 0;
         max-width: 100%;
-        padding: var(--puncture-space-md);
+        padding: var(--puncture-space-sm) var(--puncture-space-md);
         text-align: left;
         transition: background var(--puncture-transition-duration) ease-in-out;
       }
@@ -394,7 +418,7 @@ export default class ProjectElement extends BaseElement {
       }
 
       .nav-toggle > * + * {
-        margin-left: var(--puncture-space-md);
+        margin-left: var(--puncture-space-sm);
       }
 
       .nav-toggle:focus,
