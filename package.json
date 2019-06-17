@@ -1,8 +1,9 @@
 {
   "name": "@evanminto/puncture",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A minimal-setup, framework-agnostic pattern library tool implemented using Web Components.",
-  "main": "src/pattern-punch.js",
+  "main": "dist/puncture.js",
+  "browser": "dist/puncture.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
