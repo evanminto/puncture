@@ -10,6 +10,8 @@ import SectionElement from './js/SectionElement.js';
 import PageElement from './js/PageElement.js';
 
 if (
+  typeof window !== 'undefined' &&
+  'document' in window &&
   'customElements' in window &&
   'attachShadow' in document.createElement('div')
 ) {
