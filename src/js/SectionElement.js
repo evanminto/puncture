@@ -36,6 +36,7 @@ export default class SectionElement extends BaseElement {
       :host {
         display: none;
         height: 100%;
+        margin: 0 !important;
       }
 
       :host([open]) {

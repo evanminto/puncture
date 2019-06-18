@@ -113,6 +113,7 @@ export default class PatternElement extends BaseElement {
         display: none;
         height: 100%;
         flex-direction: column;
+        margin: 0 !important;
       }
 
       :host([open]) {

@@ -51,7 +51,7 @@ export default class ProjectElement extends BaseElement {
       }
     }
 
-    this.label = this.label || 'Pattern Punch';
+    this.label = this.label || 'Puncture';
     this.openSections = [];
   }
 
@@ -271,8 +271,12 @@ export default class ProjectElement extends BaseElement {
 
         --puncture-transition-duration: 125ms;
 
-        height: 100%;
-        max-height: 100%;
+        display: block;
+        height: 100vh;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
       }
 
       @media (prefers-color-scheme: dark) {
