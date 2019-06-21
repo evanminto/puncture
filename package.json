@@ -1,6 +1,6 @@
 {
   "name": "@evanminto/puncture",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A minimal-setup, framework-agnostic pattern library tool implemented using Web Components.",
   "main": "dist/puncture.js",
   "browser": "dist/puncture.js",
@@ -14,11 +14,13 @@
   "license": "MIT",
   "devDependencies": {
     "rollup": "^1.15.3",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-copy-assets": "^2.0.1",
     "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-terser": "^5.0.0"
   },
   "dependencies": {
-    "lit-element": "^2.2.0"
+    "lit-element": "^2.2.0",
+    "pretty": "^2.0.0"
   }
 }

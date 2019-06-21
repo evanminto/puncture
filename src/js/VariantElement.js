@@ -1,4 +1,5 @@
 import { css, html } from 'lit-element';
+import pretty from 'pretty';
 import BaseElement from './BaseElement.js';
 
 function sanitizeCode(str) {
@@ -17,7 +18,7 @@ function sanitizeCode(str) {
   const re = new RegExp(`^${indent}`, 'g');
   const removeExtraSpaces = s => s.replace(re, '');
 
-  return lines.map(removeExtraSpaces).join("\n");
+  return pretty(lines.map(removeExtraSpaces).join("\n"));
 }
 
 export default class VariantElement extends BaseElement {
@@ -54,6 +55,10 @@ export default class VariantElement extends BaseElement {
 
   static get styles() {
     return css`
+      :host {
+        margin: 0;
+      }
+
       code {
         background: #eee;
         display: block;
