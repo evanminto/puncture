@@ -269,6 +269,8 @@ export default class ProjectElement extends BaseElement {
         --puncture-space-lg: calc(var(--puncture-space-md) * var(--puncture-space-scale));
         --puncture-space-xl: calc(var(--puncture-space-lg) * var(--puncture-space-scale));
 
+        --puncture-border-width-sm: 0.0625rem;
+
         --puncture-transition-duration: 125ms;
 
         display: block;

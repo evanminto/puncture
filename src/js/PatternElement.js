@@ -6,6 +6,7 @@ export default class PatternElement extends BaseElement {
     super();
 
     this.open = false;
+    this.mode = 'ui';
     this.codeShown = false;
     this.code = '';
   }
@@ -24,6 +25,12 @@ export default class PatternElement extends BaseElement {
 
       open: {
         type: Boolean,
+        attribute: true,
+        reflect: true,
+      },
+
+      mode: {
+        type: String,
         attribute: true,
         reflect: true,
       },
@@ -67,21 +74,34 @@ export default class PatternElement extends BaseElement {
     });
   }
 
-  renderVariantLink(variant) {
+  handleClickCodeButton() {
+    if (this.mode === 'code') {
+      this.mode = 'ui';
+    } else{
+      this.mode = 'code';
+    }
+
+    this.variants.forEach(variant => {
+      variant.mode = this.mode;
+    });
+  }
+
+  renderVariantButton(variant) {
     const handleClick = event => {
       event.preventDefault();
       this.selectVariant(variant);
     };
 
     return html`
-      <a
+      <button
         href=""
-        class="variant-link"
+        class="variant-button"
+        type="button"
+        aria-pressed="${this.selectedVariant === variant}"
         @click="${handleClick}"
-        aria-current="${this.selectedVariant === variant}"
       >
         ${variant.label}
-      </a>
+      </button>
     `;
   }
 
@@ -89,7 +109,7 @@ export default class PatternElement extends BaseElement {
     return html`
       <ul class="variants-list">
         ${this.variants.map(variant => html`
-          <li>${this.renderVariantLink(variant)}</li>
+          <li>${this.renderVariantButton(variant)}</li>
         `)}
       </ul>
     `;
@@ -100,7 +120,23 @@ export default class PatternElement extends BaseElement {
       <div class="metadata">
         <h1>${this.label}</h1>
         <p>${this.description}</p>
-        ${this.variants.length > 1 ? this.renderVariantsList() : ''}
+
+        <div class="toggles">
+          <div>
+            ${this.variants.length > 1 ? this.renderVariantsList() : ''}
+          </div>
+
+          <div class="toggles__sidebar">
+            <button
+              type="button"
+              class="code-button"
+              aria-pressed="${this.mode === 'code'}"
+              @click="${this.handleClickCodeButton}"
+            >
+              Show Code
+            </button>
+          </div>
+        </div>
       </div>
 
       <slot name="selected"></slot>
@@ -122,6 +158,40 @@ export default class PatternElement extends BaseElement {
 
       ::slotted(puncture-variant) {
         flex: 1 1 auto;
+      }
+
+      button {
+        background: var(--puncture-color-control);
+        border: var(--puncture-border-width-sm) solid transparent;
+        color: var(--puncture-color-text-on-control);
+        display: block;
+        font: inherit;
+        font-family: var(--puncture-font-family-control);
+        padding: var(--puncture-space-xs) var(--puncture-space-sm);
+        position: relative;
+        transition:
+          background var(--puncture-transition-duration) ease-in-out,
+          color var(--puncture-transition-duration) ease-in-out;
+      }
+
+      button::before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: var(--puncture-space-sm);
+        bottom: calc(var(--puncture-space-xs) * 3 / 4);
+        right: var(--puncture-space-sm);
+        border-bottom: 0 solid var(--puncture-color-accent);
+        transition: border var(--puncture-transition-duration) ease-in-out;
+      }
+
+      button:focus,
+      button:hover {
+        background: var(--puncture-color-control-2);
+      }
+
+      button[aria-pressed='true']::before {
+        border-bottom-width: calc(var(--puncture-space-xs) / 2);
       }
 
       .metadata {
@@ -152,46 +222,51 @@ export default class PatternElement extends BaseElement {
         font-size: var(--puncture-font-size-large);
       }
 
+      .toggles {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: calc(var(--puncture-space-md) * -1);
+        margin-left: calc(var(--puncture-space-md) * -1);
+      }
+
+      .toggles > * {
+        flex: 9999 1 auto;
+        margin-left: var(--puncture-space-md);
+        margin-bottom: var(--puncture-space-md);
+      }
+
+      .toggles__sidebar {
+        flex-grow: 1;
+      }
+
+      .code-button[aria-pressed='true'] {
+        background: var(--puncture-color-text-on-control);
+        border-color: currentColor;
+        color: var(--puncture-color-control);
+      }
+
+      .code-button[aria-pressed='true']::before {
+        border-bottom-width: 0;
+        content: '✓';
+        display: inline-block;
+        margin-right: var(--puncture-space-xs);
+        position: static;
+      }
+
       .variants-list {
+        display: flex;
+        flex-wrap: wrap;
         list-style: none;
+        margin: 0 0 calc(var(--puncture-space-xs) * -1) calc(var(--puncture-space-xs) * -1);
         padding: 0;
       }
 
       .variants-list > * {
         display: inline-block;
-      }
-
-      .variant-link {
-        background: var(--puncture-color-control);
-        color: var(--puncture-color-text-on-control);
-        display: block;
-        font-family: var(--puncture-font-family-control);
-        padding: var(--puncture-space-xs) var(--puncture-space-sm);
-        position: relative;
-        text-decoration: none;
-        transition:
-          background var(--puncture-transition-duration) ease-in-out,
-          color var(--puncture-transition-duration) ease-in-out;
-      }
-
-      .variant-link::after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: var(--puncture-space-sm);
-        bottom: calc(var(--puncture-space-xs) * 3 / 4);
-        right: var(--puncture-space-sm);
-        border-bottom: 0 solid var(--puncture-color-accent);
-        transition: border var(--puncture-transition-duration) ease-in-out;
-      }
-
-      .variant-link:focus,
-      .variant-link:hover {
-        background: var(--puncture-color-control-2);
-      }
-
-      .variant-link[aria-current='true']::after {
-        border-bottom-width: calc(var(--puncture-space-xs) / 2);
+        margin-bottom: var(--puncture-space-xs);
+        margin-left: var(--puncture-space-xs);
       }
     `;
   }

@@ -31,6 +31,7 @@ export default class VariantElement extends BaseElement {
       mode: {
         type: String,
         attribute: true,
+        reflect: true,
       },
     };
   }
@@ -38,17 +39,12 @@ export default class VariantElement extends BaseElement {
   connectedCallback() {
     super.connectedCallback();
 
-    const doc = document.documentElement.cloneNode(true);
-    doc.querySelector('body').innerHTML = this.innerHTML;
-    const base64encoded = btoa(doc.outerHTML);
-    this.dataUri = `data:text/html;base64,${base64encoded}`;
-
     this.code = sanitizeCode(this.innerHTML);
   }
 
   render() {
     return html`
-      <iframe src="${this.dataUri}" ?hidden="${this.mode === 'code'}"></iframe>
+      <slot ?hidden="${this.mode === 'code'}"></slot>
 
       <code ?hidden="${this.mode !== 'code'}">
         <pre>${this.code}</pre>
@@ -58,11 +54,6 @@ export default class VariantElement extends BaseElement {
 
   static get styles() {
     return css`
-      :host {
-        display: flex;
-        flex-direction: column;
-      }
-
       code {
         background: #eee;
         display: block;
@@ -75,15 +66,6 @@ export default class VariantElement extends BaseElement {
 
       code[hidden] {
         display: none;
-      }
-
-      iframe {
-        border: 0;
-        box-sizing: border-box;
-        flex: 1 1 auto;
-        position: relative;
-        width: 100%;
-        z-index: 0;
       }
     `;
   }
