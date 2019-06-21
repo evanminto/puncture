@@ -3,7 +3,8 @@ import pretty from 'pretty';
 import BaseElement from './BaseElement.js';
 
 function sanitizeCode(str) {
-  const lines = str.split("\n").filter(l => l.match(/\S/));
+  const prettyStr = pretty(str);
+  const lines = prettyStr.split("\n").filter(l => l.match(/\S/));
   const indent = lines.reduce((i, current) => {
     const match = current.match(/^( *)/)[0];
     const indentSpaces = match.length;
@@ -18,7 +19,7 @@ function sanitizeCode(str) {
   const re = new RegExp(`^${indent}`, 'g');
   const removeExtraSpaces = s => s.replace(re, '');
 
-  return pretty(lines.map(removeExtraSpaces).join("\n"));
+  return lines.map(removeExtraSpaces).join("\n");
 }
 
 export default class VariantElement extends BaseElement {
@@ -47,9 +48,11 @@ export default class VariantElement extends BaseElement {
     return html`
       <slot ?hidden="${this.mode === 'code'}"></slot>
 
-      <code ?hidden="${this.mode !== 'code'}">
-        <pre>${this.code}</pre>
-      </code>
+      <div class="code-wrapper" ?hidden="${this.mode !== 'code'}">
+        <code>
+          <pre>${this.code}</pre>
+        </code>
+      </div>
     `;
   }
 
@@ -59,17 +62,38 @@ export default class VariantElement extends BaseElement {
         margin: 0;
       }
 
+      :host([mode='code']) {
+        display: flex;
+        flex-direction: column;
+      }
+
+
+      :host([mode='code']) .code-wrapper {
+        flex: 1 1 auto;
+      }
+
       code {
         background: #eee;
+        box-sizing: border-box;
         display: block;
+        flex: 1 1 auto;
+        height: 100%;
         padding: var(--puncture-space-md);
+        width: max-content;
       }
 
       pre {
         margin: 0;
       }
 
-      code[hidden] {
+      .code-wrapper {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        width: 100%;
+      }
+
+      .code-wrapper[hidden] {
         display: none;
       }
     `;

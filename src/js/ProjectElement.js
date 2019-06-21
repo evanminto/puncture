@@ -366,6 +366,8 @@ export default class ProjectElement extends BaseElement {
 
       main {
         grid-area: auto / 1 / auto / span 2;
+        overflow: hidden;
+        width: 100%;
       }
 
       nav + main {
